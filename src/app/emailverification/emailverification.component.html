@@ -1,0 +1,47 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <div class="row">
+        <h1 class="otpheader">Enter Your OTP </h1>
+    </div>
+    <div class="row ">
+        <p class="otpdetail">For your security, we need to verify your identity.We sent 5-digit<br/>code to <span></span>.Please enter it below</p>
+        </div>
+    <div class="otpinfo">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <h5>Enter code</h5>
+                    <form [formGroup]="otpform" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                <input type="string" formControlName="otp" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.otp.errors }" />
+                                </div>
+                                <div class="col-sm-3">
+                                <input type="string" formControlName="otp" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.otp.errors }" />
+                                </div>
+                                <div class="col-sm-3">
+                                <input type="string" formControlName="otp" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.otp.errors }" />
+                                </div>
+                                <div class="col-sm-3">
+                                <input type="string" formControlName="otp" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.otp.errors }" />
+                                </div>
+                            </div>
+                            <div *ngIf="submitted && f.otp.errors" class="invalid-feedback">
+                                <div *ngIf="f.otp.errors.required">OTP value  is required</div>
+                            </div>
+                        </div>
+                       
+                       <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-3"> <button type="button" class="btn btn-light"  routerLink="/companydetails">Back</button> </div>
+                                 <div class="col-sm-8"><button class="btn btn-primary OTP">Verify</button></div>
+                         </div>
+                        </div> 
+                    </form>
+                </div>
+            </div>
+        </div>
+       
+    </div> 
+</div>

@@ -1,0 +1,71 @@
+<app-navbar></app-navbar>
+<div class="container "> 
+ <div class="row">   
+<h1 class="personalheader">Add your personal Details</h1>
+</div>
+       <div class="personalInfo">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" formControlName="fullname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fullname.errors }" />
+                            <div *ngIf="submitted && f.fullname.errors" class="invalid-feedback">
+                                <div *ngIf="f.fullname.errors.required">Full Name is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                           <label>Gender</label>
+                           <div class="row">
+                               <div class="col-sm-3">
+                            <button type="button" class="btn btn-light"   [ngClass]="{ 'active': selectedgender == 1 }" (click)="changegender(1)" >Male</button>
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-light"  [ngClass]="{ 'active':  selectedgender == 2 }"(click)="changegender(2)">Female</button>
+                        </div>
+                        <div class="col-sm-3">
+                            <button type="button" class="btn btn-light"  [ngClass]="{ 'active':  selectedgender == 3  }" (click)="changegender(3)">Other</button>
+                        </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Country</label><br/>
+                            <select formControlName="country"  id="countries"  class="form-control dropdown">
+                                <option [ngValue]="null" [disabled]="true">Select Countries
+                                </option>
+                                <option *ngFor="let c of countries" [ngValue]="c">{{ c}}</option>
+                              </select>
+                              <div *ngIf="submitted && f.country.errors " class="invalid-feedback"> 
+                                <div *ngIf="f.country.errors.required">country name is required</div>
+                              </div>
+                        </div>
+                        <div class="form-group">
+                            <label>State</label><br/>
+                            <select formControlName="state" id="states"  class="form-control dropdown" >
+                                <option  [ngValue]="null" [disabled]="true">Select States</option> 
+                                <option *ngFor="let c of states" [ngValue]="c">{{ c }}</option>
+                              </select>
+                              <div *ngIf="submitted && f.state.errors " class="invalid-feedback"> 
+                                <div *ngIf="f.state.errors.required">state name is required</div>
+                              </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="string" formControlName="phone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" />
+                            <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                                <div *ngIf="f.phone.errors.required">Phone number is required</div>
+                                <div *ngIf="f.phone.errors.minlength">Phone number  must be at least 10 digits</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary next ">Next</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <p class="login">Already have a account <a class="logincheck"> Log in</a> </p>
+            </div>
+        </div>
+</div>
