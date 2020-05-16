@@ -10,20 +10,41 @@ export class EmailverificationComponent implements OnInit {
 
   otpform: FormGroup;
   submitted = false;
+    otp: string;
+    isdisable = true;
+
+   
   constructor(private formBuilder: FormBuilder) { }
 
-    ngOnInit() {
+    ngOnInit() { 
         this.otpform = this.formBuilder.group({
-            otp: ['', Validators.required, Validators.maxLength(1)],
-            
+            otp: ['', Validators.required],
         });
     }
-    get f() { return this.otpform.controls; }
 
+    get f() { return this.otpform.controls; }
+    onOtpChange(otp) {
+        this.otp = otp;
+        if(this.otp.length > 4)
+        {
+            this.isdisable = false;
+        }
+        else{
+            this.isdisable = true;
+        }
+      }
+      
+      config = {
+        allowNumbersOnly: true,
+        length: 5,
+        // password hide here //
+        isPasswordInput: false,
+        // password hide here //
+        placeholder:'',
+      }
+    
     onSubmit() {
         this.submitted = true;
-
-        // stop here if form is invalid
         if (this.otpform.invalid) {
             return;
         }

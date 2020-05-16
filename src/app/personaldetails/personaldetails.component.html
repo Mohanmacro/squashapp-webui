@@ -1,71 +1,111 @@
 <app-navbar></app-navbar>
-<div class="container "> 
- <div class="row">   
-<h1 class="personalheader">Add your personal Details</h1>
-</div>
-       <div class="personalInfo">
-            <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <input type="text" formControlName="fullname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fullname.errors }" />
-                            <div *ngIf="submitted && f.fullname.errors" class="invalid-feedback">
-                                <div *ngIf="f.fullname.errors.required">Full Name is required</div>
+<div class="container ">
+    <div class="row">
+        <h3 class="personalheader">Add your personal Details</h3>
+    </div>
+    <div class="personalInfo">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" formControlName="fullname" class="form-control name"
+                            [ngClass]="{ 'is-invalid': submitted && f.fullname.errors }" />
+                        <div *ngIf="submitted && f.fullname.errors" class="invalid-feedback">
+                            <div *ngIf="f.fullname.errors.required">Full Name is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <button type="button" class="btn btn-light"
+                                    [ngClass]="{ 'active': selectedgender == 1 }"
+                                    (click)="changegender(1)">Male</button>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-light"
+                                    [ngClass]="{ 'active':  selectedgender == 2 }"
+                                    (click)="changegender(2)">Female</button>
+                            </div>
+                            <div class="col-sm-3">
+                                <button type="button" class="btn btn-light"
+                                    [ngClass]="{ 'active':  selectedgender == 3  }"
+                                    (click)="changegender(3)">Other</button>
                             </div>
                         </div>
-                        <div class="form-group">
-                           <label>Gender</label>
-                           <div class="row">
-                               <div class="col-sm-3">
-                            <button type="button" class="btn btn-light"   [ngClass]="{ 'active': selectedgender == 1 }" (click)="changegender(1)" >Male</button>
+                    </div>
+
+                    <div class="form-group">
+                        <select formControlName="country" class="form-control dropdown"  [(ngModel)]="selectedCountry.id"
+                            (change)="onSelect($event.target.value)" 
+                            [ngClass]="{ 'is-invalid': submitted && f.country.errors }">
+                            <option value=""  >Select Country</option>
+                            <option *ngFor="let country of countries" value={{country.name}}>{{country.name}}</option>
+                        </select>
+                        <div *ngIf="submitted && f.country.errors?.required">
+                            <div  class="invalid"><p  class="invalid">Country value is  required</p></div>
                         </div>
-                        <div class="col-sm-4">
-                            <button type="button" class="btn btn-light"  [ngClass]="{ 'active':  selectedgender == 2 }"(click)="changegender(2)">Female</button>
-                        </div>
-                        <div class="col-sm-3">
-                            <button type="button" class="btn btn-light"  [ngClass]="{ 'active':  selectedgender == 3  }" (click)="changegender(3)">Other</button>
-                        </div>
-                            </div>
+                    </div>
+
+                    <div class="form-group">
+                        <select formControlName="state" class="form-control dropdown">
+                            <option value="" >Select State</option>
+                            <option *ngFor="let state of states " value={{state.name}}>{{state.name}}</option>
+                        </select>
+                    </div>
+                    <div *ngIf="submitted && f.state.errors?.required">
+                        <div  class="invalid"><p  class="invalid">State value  is required</p></div>
+                    </div>
+                  
+
+
+                    <!-- This dropdown for jquerry plugins but reload issue -->
+
+
+                    <!-- <div class="form-group">
+                        <label>Country</label><br />
+                        <select name="country" formControlName="country" class="countries form-control dropdown"
+                            id="countryId">
+                            <option value="">Select Country</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>State</label><br />
+                        <select name="state" formControlName="state" class="states form-control dropdown" id="stateId">
+                            <option value="">Select State</option>
+                        </select>
+                    </div>  -->
+
+
+
+                    <div class="form-group">
+                        <ngx-intl-tel-input [cssClass]="'mobileinput'" [preferredCountries]="preferredCountries"
+                            [enableAutoCountrySelect]="false" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                            [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                            [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.India" [maxLength]="10"
+                            [tooltipField]="TooltipLabel.Name" [phoneValidation]="true"
+                            [separateDialCode]="separateDialCode" name="phone" formControlName="Phone"
+                            ng-model="myInput" ng-minlength="10"
+                            [ngClass]="{ 'is-invalid': submitted && f.Phone.errors}">
+
+                        </ngx-intl-tel-input>
+                        <div ng-if="!myForm.myInput.$valid" class="invalid-feedback">Phone number too short</div>
+                        <div *ngIf="submitted && f.Phone.errors" class="invalid-feedback">
+                            <div *ngIf="f.Phone.errors.required"> or Phone number required</div>
                         </div>
 
-                        <div class="form-group">
-                            <label>Country</label><br/>
-                            <select formControlName="country"  id="countries"  class="form-control dropdown">
-                                <option [ngValue]="null" [disabled]="true">Select Countries
-                                </option>
-                                <option *ngFor="let c of countries" [ngValue]="c">{{ c}}</option>
-                              </select>
-                              <div *ngIf="submitted && f.country.errors " class="invalid-feedback"> 
-                                <div *ngIf="f.country.errors.required">country name is required</div>
-                              </div>
-                        </div>
-                        <div class="form-group">
-                            <label>State</label><br/>
-                            <select formControlName="state" id="states"  class="form-control dropdown" >
-                                <option  [ngValue]="null" [disabled]="true">Select States</option> 
-                                <option *ngFor="let c of states" [ngValue]="c">{{ c }}</option>
-                              </select>
-                              <div *ngIf="submitted && f.state.errors " class="invalid-feedback"> 
-                                <div *ngIf="f.state.errors.required">state name is required</div>
-                              </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone</label>
-                            <input type="string" formControlName="phone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" />
-                            <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
-                                <div *ngIf="f.phone.errors.required">Phone number is required</div>
-                                <div *ngIf="f.phone.errors.minlength">Phone number  must be at least 10 digits</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-primary next ">Next</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="row">
-                <p class="login">Already have a account <a class="logincheck"> Log in</a> </p>
+
+
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary next">Next</button>
+                    </div>
+                </form>
             </div>
         </div>
+        <div class="row">
+            <p class="login">Already have a account <a class="logincheck"> Log in</a> </p>
+        </div>
+    </div>
 </div>

@@ -9,6 +9,13 @@ import { EmailverificationComponent } from './emailverification/emailverificatio
 import { NavbarComponent } from './navbar/navbar.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { FormsModule } from '@angular/forms';
+import { NgOtpInputModule } from  'ng-otp-input';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,10 +26,15 @@ import { HttpClientModule } from '@angular/common/http';
     
   ],
   imports: [
+    TooltipModule.forRoot(),
     BrowserModule,
+    FormsModule,
+    NgOtpInputModule,
+    NgxIntlTelInputModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

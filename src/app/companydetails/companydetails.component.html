@@ -1,23 +1,29 @@
 <app-navbar></app-navbar>
 <div class="container ">
     <div class="row">
-        <h1 class="companyheader">Add your Company Details</h1>
+        <h3 class="companyheader">Add your Company Details</h3>
     </div>
     <div class="companyinfo">
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
                     <div class="form-group">
+                        
                         <div class="d-flex ">
-                            <img [src]="imageURL" class="uploaded_image">
-                            <label for="files" class="btn upload_image-btn">
-                                <p class="upload">Upload Image here</p>
+                            <img *ngIf = "url" [src]="url" class="uploaded_image" >
+                            <img *ngIf ="!url" src="https://cdn1.iconfinder.com/data/icons/business-company-1/500/image-512.png" class="upload_image">
+                            <label for="upload-photo" class="btn upload_image-btn">
+                                <p class="upload">Upload your company logo</p>
                             </label>
-
                         </div>
-                        <input id="files" #image type="file" accept="image/*" style="visibility:hidden;"
-                            (change)="showPreview($event)" />
+                            <input type="file" name="photo" formControlName="url" id="upload-photo" accept="image/x-png,image/gif,image/jpeg"  (change)="showPreview($event)"   />
+                            <div *ngIf="submitted && f.url.errors" class="invalid">
+                                <div *ngIf="f.url.errors.required">Image is required</div>
+                            </div>
                     </div>
+
+
+
                     <div class="form-group">
                         <label>Company Name</label>
                         <input type="text" formControlName="companyname" class="form-control"
@@ -48,24 +54,25 @@
 
                     <div class="form-group">
                         <label>Year of Experience</label>
-                        <input type="Number" formControlName="experience" class="form-control"
+                        <input type="Number" min="0" formControlName="experience" class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f.experience.errors }" />
                         <div *ngIf="submitted && f.experience.errors" class="invalid-feedback">
-                            <div *ngIf="f.experience.errors.required">Phone number is required</div>
+                            <div *ngIf="f.experience.errors.required">Experience  is required</div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="check "><span class="accept">I accept </span><a class="terms">Terms and
                                 Conditions</a>
-                            <input type="checkbox" [checked]="isTermsRead">
+                            <input type="checkbox" (change)="isTermsRead=!isTermsRead" >
                             <span class="checkmark"></span>
                         </label>
+                       
                     </div>
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-sm-3"> <button type="button" class="btn btn-light"
-                                    routerLink="">Back</button> </div>
-                            <div class="col-sm-8"><button class="btn btn-primary OTP">Send OTP</button></div>
+                            <div class="col-sm-3"> <button type="button" class="btn btn-light back"
+                                    routerLink="" >Back</button> </div>
+                            <div class="col-sm-8"><button class="btn btn-primary OTP" >Send OTP</button></div>
                         </div>
                     </div>
                 </form>

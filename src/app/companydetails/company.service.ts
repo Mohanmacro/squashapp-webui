@@ -12,10 +12,12 @@ export class CompanyService {
   constructor(private http: HttpClient, private router: Router,) { 
     this.Custom = environment.custom;
     
-  }
+  } 
 
   emailverification(data)
   {
     return this.http.post<any>(`${this.Custom}category`,data);
   }
+
+ 
 }

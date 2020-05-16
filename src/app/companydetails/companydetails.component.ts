@@ -9,79 +9,88 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CompanydetailsComponent implements OnInit {
 
+
+  public imagePath;
+  public message: string;
   companyForm: FormGroup;
   submitted = false;
   isTermsRead = false;
-  imageURL: string;
+   url :any = String;
+   fileName = '';
+   currentId: number = 0;
+   editpreview = false;
+  editimage :File;
+
+ 
+ 
 
 
 
   constructor(private formBuilder: FormBuilder, private companyService: CompanyService, private route: ActivatedRoute,
     private router: Router) { }
 
-  ngOnInit() {
+  ngOnInit() { 
 
     this.companyForm = this.formBuilder.group({
       companyname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       jobtitle: ['', Validators.required],
       experience: ['', [Validators.required]],
-      image: ['', Validators.required],
+      url: ['', Validators.required],
+   
     });
     var company = localStorage.getItem("companydetail");
-    if (company) {
-      var companydata = JSON.parse(company);
-      // this.companyForm.setValue({ companyname: companydata.companyname, email: companydata.email, jobtitle: companydata.jobtitle, experience: companydata.experience, image: companydata.image });
-    }
   }
+  check(event) {
+    if ( event.target.checked ) {
+        this.isTermsRead = true;
+   }
+}
 
-
-  showPreview(event) {
-    const file = (event.target as HTMLInputElement).files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imageURL = reader.result as string;
+showPreview(event) {
+  const file = (event.target as HTMLInputElement).files[0];
+  const reader = new FileReader();
+  reader.onload = () => {
+    this.url = reader.result as string;
+    this.companyForm.patchValue({
+      image: file
+    });
+    if(this.editpreview === true){
+      this.editimage = file;
       this.companyForm.patchValue({
-        image: file
+        editimage:file
       });
-
     }
-    reader.readAsDataURL(file)
   }
+  reader.readAsDataURL(file)
+}
+
 
 
   UploadImage(event) {
     const file = (event.target as HTMLInputElement).files[0];
     const reader = new FileReader();
     reader.onload = () => {
-      this.imageURL = reader.result as string;
+      this.url = reader.result as string;
     }
+    
     reader.readAsDataURL(file);
   }
 
   get f() { return this.companyForm.controls; }
   
-  sendOTP() {
-
-    let companydata: any = {
-      comapanyname: this.companyForm.get('companyname').value,
-      email: this.companyForm.get('email').value,
-      jobtitle: this.companyForm.get('jobtitle').value,
-      experience: this.companyForm.get('experience').value,
-    };
-    this.companyService.emailverification(companydata).subscribe(res => {
-      console.log(res);
-    })
-  }
+ 
   onSubmit() {
     this.submitted = true;
     if (this.companyForm.invalid) {
       return;
     }
     window.localStorage.setItem("companydetail", JSON.stringify(this.companyForm.value));
-    if (this.isTermsRead) {
+    if (this.isTermsRead == true) {
       this.router.navigate(['/emailverification']);
     }
-    else alert('Please read terms');
+    else{
+      alert("Please check read and terms");
+    }
   }
 }

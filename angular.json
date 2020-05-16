@@ -28,8 +28,10 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "./node_modules/intl-tel-input/build/css/intlTelInput.css",
               "src/styles.scss"
-
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
@@ -96,18 +98,20 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "./node_modules/intl-tel-input/build/css/intlTelInput.css",
               "src/styles.scss"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
               "./node_modules/bootstrap/dist/js/bootstrap.min.js"
-           
             ]
-          } 
+          }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
-          "options": { 
+          "options": {
             "tsConfig": [
               "tsconfig.app.json",
               "tsconfig.spec.json",

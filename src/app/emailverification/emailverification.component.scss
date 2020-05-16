@@ -6,6 +6,12 @@
      margin-left: 20%;
      padding:10px;
   }
+
+  .code
+  {
+    position: absolute;
+    margin-left: -10px;
+  }
   .otpheader
 {
     margin-left: 25%;
@@ -18,4 +24,12 @@
 .form-control
 {
     width: 50px;
+}
+
+.btn-primary
+{
+    color: white !important;
+    background-color: orangered !important;
+    border: orangered;
+    width: 175px;
 }

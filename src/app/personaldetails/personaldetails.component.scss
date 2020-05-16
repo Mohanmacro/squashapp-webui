@@ -1,15 +1,27 @@
 .personalheader
 {
-    margin-left: 25%;
-    margin-top:2%;
+    margin-left: 30%;
+    margin-top:3%;
 }
 .personalInfo
 {
-  margin-top:2%;
+  margin-top:4%;
     background-color: whitesmoke;
    width: 600px;
    margin-left: 20%;
    padding:10px;
+}
+.name
+{
+    width: 270px !important;
+}
+.invalid
+{
+    font-size: 14px;
+    color: #dc3545;
+}
+.dropdown-menu.show {
+    display: grid !important;
 }
 .dropdown
 {
@@ -17,18 +29,35 @@
 }
 .login
 {
-    padding-left: 220px;
+    padding-left: 193px;
 }
 .logincheck
 {
-    color:blue;
+    color:#eb5013;
     cursor: pointer;
 }
 .next
 {
-    width:278px;
+    width:270px;
 }
 .active {
-    background-color: blue !important;
-    color:white !important
+    background-color:#ffedd1 !important;
+    color:#eb5013 !important;
+    border: #eb5013;
   }
+  .country-dropdown[_ngcontent-lyf-c53] {
+      width: 282px !important;
+  }
+  .mobileinput{
+    width: 269px !important;
+    height: 40px !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 0.25rem !important;
+}
+.btn-primary
+{
+    color: white !important;
+    background-color: #eb5013 !important;
+    border: #eb5013;
+}
+

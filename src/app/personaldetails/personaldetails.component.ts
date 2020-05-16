@@ -1,21 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SearchCountryField, TooltipLabel, CountryISO } from 'ngx-intl-tel-input';
+import { Country } from './country';
+import { State } from './state';
+import { SelectService } from './select.service';
 @Component({
   selector: 'app-personaldetails',
   templateUrl: './personaldetails.component.html',
-  styleUrls: ['./personaldetails.component.scss']
+  styleUrls: ['./personaldetails.component.scss'],
+  providers: [SelectService]
 })
 export class PersonaldetailsComponent implements OnInit {
-  countries: string[] = ['USA', 'UK', 'Canada'];
+
+
+  // selectedCountry: any = '';
+  selectedCountry:Country = new Country('','');;
+  countries: Country[];
+  states: State[];
+  isdisable = true;
+  otp: string;
+  selectCountry = [];
+  default: string = 'USA';
+ 
+  separateDialCode = true;
+  SearchCountryField = SearchCountryField;
+  TooltipLabel = TooltipLabel;
+  CountryISO = CountryISO;
+  preferredCountries: CountryISO[] = [CountryISO.UnitedStates, CountryISO.UnitedKingdom];
+  mobNumberPattern = "^((\\+91-?)|0)?[0-9]{10}$";
+
   registerForm: FormGroup;
   submitted = false;
-  states: string[] = ['Tamilnadu', 'Newyork', 'Hunan'];
   selectedgender = 1;
   newdropdownvalue: any;
 
+
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router, private selectService: SelectService) { }
 
   changegender(userSelectedGender) {
     this.selectedgender = userSelectedGender;
@@ -32,39 +54,58 @@ export class PersonaldetailsComponent implements OnInit {
       return "Other";
   }
 
-  getaddedfield(event) {
-    console.log(event);
-    this.newdropdownvalue = event;
-  }
+ 
+
   ngOnInit(): void {
+
+    this.countries = this.selectService.getCountries();
+    this.onSelect(this.selectedCountry.id);
+
+
+
     this.registerForm = this.formBuilder.group({
       fullname: ['', Validators.required],
-      country: [null, [Validators.required]],
-      state: [null, [Validators.required]],
-      phone: ['', [Validators.required, Validators.minLength(10)]],
+      country: ['', Validators.required],
+      state: ['', Validators.required],
+      Phone: ['', [Validators.required, Validators.minLength(10)]],
       gender: new FormControl(null)
     });
 
+
     this.selectedgender = 1;
+
     var person = localStorage.getItem("personaldetail");
-    if (person) {
-      var persondata = JSON.parse(person);
-    this.registerForm.controls['fullname'].setValue(persondata.fullname, { onlySelf: true });
-    this.registerForm.controls['country'].setValue(persondata.country, { onlySelf: true });
-    this.registerForm.controls['state'].setValue(persondata.state, { onlySelf: true });
-    this.registerForm.controls['phone'].setValue(persondata.phone, { onlySelf: true });
-    this.registerForm.controls['gender'].setValue(persondata.gender, { onlySelf: true });
+  
   }
-}
+
+
+
+
   get f() { return this.registerForm.controls; }
+  onOtpChange(otp) {
+    this.otp = otp;
+    if (this.otp.length > 9) {
+      this.isdisable = false;
+    }
+    else {
+      this.isdisable = true;
+    }
+  }
+  onSelect(countryid) {
+    this.states = this.selectService.getStates().filter((item) => item.countryid == countryid);
+  }
+
 
   onSubmit() {
     this.submitted = true;
     if (this.registerForm.invalid) {
-      return;
+      return false;
     }
-    alert('SUCCESS!! :-)' + JSON.stringify(this.registerForm.value));
-    this.router.navigate(['/companydetails'])
-    window.localStorage.setItem("personaldetail", JSON.stringify(this.registerForm.value));
+    else {
+      this.router.navigate(['/companydetails'])
+      window.localStorage.setItem("personaldetail", JSON.stringify(this.registerForm.value));
+    }
   }
+
+
 }
